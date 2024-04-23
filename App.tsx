@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.tsx
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomePage from './component/home';
+import Register from './component/register';
+import Connexion from './component/connexion';
+import { AuthProvider } from './component/authContext';
+import ConnectedPage from './component/connected';
+import ConnectedHome from './component/connected_home';
+import Menu from './component/menu';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
+          <Stack.Screen name="Register" component={Register} options={{headerShown: false}} />
+          <Stack.Screen name="Connexion" component={Connexion} options={{headerShown: false}} />
+          <Stack.Screen name="Connected" component={ConnectedPage} options={{headerShown: false}} />
+          <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}} />
+          <Stack.Screen name="ConnectedHome" component={ConnectedHome} options={{headerShown: false}} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
