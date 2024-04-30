@@ -120,13 +120,12 @@ interface Selection {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 30,
     },
     contentContainer: {
         flexGrow: 1,
     },
     box1: {
-        height: "10%",
+        height: "8%",
         alignItems: "center",
         justifyContent: "center",
     },
