@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { useAuth } from './authContext';
 import axios from 'axios';
-
+import {Recipe} from "./authContext";
 export default function Search() {
     const [searchQuery, setSearchQuery] = useState('');
     const { token } = useAuth();
@@ -11,7 +11,7 @@ export default function Search() {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://10.0.2.2:3000/recipes/${searchQuery}`, {
+            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes/${searchQuery}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -22,7 +22,7 @@ export default function Search() {
         }
     };
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({ item } : { item: Recipe }) => (
         <View style={styles.card}>
             <Image source={{ uri: item.image }} style={styles.cardImage} />
             <Text style={styles.cardTitle}>{item.name_recipe}</Text>

@@ -8,13 +8,13 @@ import { ScrollView } from 'react-native-gesture-handler';
 interface Selection {
     id: number;
     name: string;
-    recipe: Recipe[];
+    recipes: Recipe[];
   }
-  
+
   interface SelectionCardProps {
     selection: Selection;
   }
-  
+
 
   export default function Selection() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -28,7 +28,7 @@ interface Selection {
 
     const fetchSelections = async () => {
         try {
-            const response = await axios.get(`http://10.0.2.2:3000/selections/${user?.id}`, {
+            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/selections/${user?.id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             console.log(response.data.recipe)
@@ -40,7 +40,7 @@ interface Selection {
 
     const handleSave = async () => {
         try {
-            await axios.post('http://10.0.2.2:3000/selections', {
+            await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/selections`, {
                 userId: user?.id,
                 name: selectionName,
             }, {
@@ -55,7 +55,7 @@ interface Selection {
         }
     };
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({ item }: { item: Selection }) => (
         <View style={styles.card}>
             {item.recipes && item.recipes.length > 0 ? (
                 item.recipes.map((recipe, index) => (
@@ -115,7 +115,7 @@ interface Selection {
         </View>
     </Modal>
 </ScrollView>
-    );    
+    );
 }
 const styles = StyleSheet.create({
     container: {
@@ -230,5 +230,5 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         paddingBottom: 100
-    }    
+    }
 });

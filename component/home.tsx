@@ -1,8 +1,13 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import aliments from "../assets/aliments.jpg";
 import homeimage from "../assets/imagebeoufhome.jpg";
+import React from "react";
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
-export default function HomePage({navigation}) {
+interface HomePageProps {
+    navigation: NavigationProp<ParamListBase>;
+}
+export default function HomePage({navigation}: HomePageProps) {
     return (
         <View style={styles.container}>
             <View style={styles.box1}>
@@ -43,7 +48,7 @@ const styles = StyleSheet.create({
         height: "36%",
         width: "100%",
         alignItems: "center",
-        justifyContent: "center", 
+        justifyContent: "center",
         marginTop: 30,
     },
     mainImage: {

@@ -30,7 +30,7 @@
         useEffect(() => {
             onUpdate(index, { ...ingredient, quantity: quantity, unit });
         }, [quantity, unit]);
-    
+
         const handleQuantityChange = (text: string) => {
             // Convert the input text to a number, using 0 if conversion fails
             const num = parseInt(text, 10) || 0;
@@ -109,12 +109,12 @@
                 unit: ''
             }]);
         };
-        
+
         const updateIngredient = (index: number, newIngredient: Ingredient) => {
             const newIngredients = [...ingredients];
             newIngredients[index] = { ...newIngredients[index], ...newIngredient };
             setIngredients(newIngredients);
-        };            
+        };
 
         // Supprime un ingrédient de la liste
         const removeIngredient = (index: number) => {
@@ -126,7 +126,7 @@
         useEffect(() => {
             const fetchIngredient = async () => {
                 try {
-                    const response = await axios.get('http://10.0.2.2:3000/ingredients', {
+                    const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/ingredients`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -149,9 +149,9 @@
             };
             fetchIngredient();
         }, [token]);
-        
+
         const handleCreateIngredientRecipe = async () => {
-            if (!user) { 
+            if (!user) {
                 Alert.alert("User Error", "No user logged in.");
                 return;
             }
@@ -165,7 +165,7 @@
                         quantity: ingredient.quantity,
                         unit: ingredient.unit,
                 })
-                    const response = await axios.post('http://10.0.2.2:3000/recipe-ingredients', {
+                    const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/recipe-ingredients`, {
                         ingredient: {
                             id_ingredient: ingredient.id_ingredient
                         },
@@ -188,8 +188,8 @@
                 Alert.alert("Erreur de connexion", "Impossible de la connexion.");
             }
         };
-        
-        
+
+
         return (
             <ScrollView style={styles.container} contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.box1}>
@@ -276,7 +276,7 @@
             alignSelf: 'center',
             marginTop: 40, // Augmentez cette valeur pour ajouter plus d'espace
             marginBottom: 20, // Ajoutez une marge en bas si nécessaire
-        },      
+        },
         textbutton: {
             fontSize: 24,
             fontWeight: "bold",

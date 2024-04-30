@@ -1,30 +1,52 @@
-import React, { useState } from "react";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input } from 'react-native-elements';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
-import axios from "axios";
-import { useAuth } from "./authContext";
+import { Input } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+import { useAuth } from './authContext';
 
-export default function Register({navigation}) {
+interface RegisterProps {
+    navigation: NavigationProp<ParamListBase>;
+}
+
+export default function Register({navigation}: RegisterProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [profilepicture, setProfileImage] = useState(''); // New state variable for profile image
     const { signIn } = useAuth();
 
     const handleSignUp = async () => {
         try {
-            const response = await axios.post('http://10.0.2.2:3000/users/auth/sign-up', {
-                email,
-                username,
-                password,
-                role: "User"
+            const url = `${process.env.EXPO_PUBLIC_API_URL}/users/auth/sign-up`;
+            console.log('URL :', url);
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    username,
+                    password,
+                    role: "User",
+                    profilepicture // Include profile image in the request body
+                })
             });
-            console.log('Réponse du serveur :', response.data);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log('Réponse du serveur :', data);
+
             // Redirection ou alerte de succès
             Alert.alert("Inscription réussie", "Il faut maintenant vous connecter.", [
                 {text: "OK", onPress: () => navigation.navigate('Connexion')}
             ]);
         } catch (error) {
+            console.log(error)
             console.error('Erreur lors de l\'inscription :', error);
             Alert.alert("Erreur d'inscription", "Impossible de s'inscrire.");
         }
@@ -54,6 +76,12 @@ export default function Register({navigation}) {
                     onChangeText={setPassword}
                     leftIcon={<Icon name="lock" size={24} color="black" />}
                 />
+                <Input
+                    placeholder="Profile Image URL"
+                    value={profilepicture}
+                    onChangeText={setProfileImage}
+                    leftIcon={<Icon name="image" size={24} color="black" />} // New input field for profile image
+                />
             </View>
             <View style={styles.box3}>
                 <TouchableOpacity
@@ -69,6 +97,8 @@ export default function Register({navigation}) {
         </View>
     )
 }
+
+// ... rest of your code
 
 const styles = StyleSheet.create({
     container: {

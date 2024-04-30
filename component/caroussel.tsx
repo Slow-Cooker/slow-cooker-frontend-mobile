@@ -17,7 +17,7 @@ export default function ImageCarousel() {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await axios.get('http://10.0.2.2:3000/recipes', {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -39,10 +39,10 @@ export default function ImageCarousel() {
         };
         fetchImages();
     }, [token]);
-    
+
     const renderItem = ({ item }: { item: ImageItem }) => (
         <View style={styles.imageContainer}>
-            <Image 
+            <Image
                 source={{ uri: item.url }}
                 style={styles.image}
                 resizeMode="cover"

@@ -1,9 +1,12 @@
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { ScrollView, Text, StyleSheet, View } from "react-native";
 import ImageCarousel from "./caroussel";
-import Menu from "./menu";
 import React from "react";
 
-export default function ConnectedHome({ navigation }) {
+interface ConnectedHomeProps {
+    navigation: NavigationProp<ParamListBase>;
+}
+export default function ConnectedHome({ navigation }: ConnectedHomeProps) {
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <View style={styles.box1}>

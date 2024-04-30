@@ -14,7 +14,8 @@
     "target": "es5"
   },
   "include": [
-    "component/**/*"
+    "component/**/*",
+    "declarations.d.ts"
   ],
   "extends": "expo/tsconfig.base"
 }

@@ -26,15 +26,15 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
         setDuration('');
         setImage('');
     };
-    
+
     const handleCreateRecipe = async () => {
         console.log(token);
-        if (!user) { 
+        if (!user) {
             Alert.alert("User Error", "No user logged in.");
             return;
         }
         try {
-            const response = await axios.post('http://10.0.2.2:3000/recipes', {
+            const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/recipes`, {
                 name_recipe,
                 difficulty,
                 category,

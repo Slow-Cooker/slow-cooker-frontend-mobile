@@ -1,3 +1,4 @@
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { Input } from 'react-native-elements';
@@ -5,7 +6,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { useAuth } from './authContext';
 
-export default function Connexion({navigation}) {
+interface ConnexionProps {
+    navigation: NavigationProp<ParamListBase>;
+}
+export default function Connexion({navigation}: ConnexionProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { signIn } = useAuth();
@@ -13,7 +17,7 @@ export default function Connexion({navigation}) {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://10.0.2.2:3000/users/auth/login', {
+            const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/users/auth/login`, {
                 email,
                 password,
             });
