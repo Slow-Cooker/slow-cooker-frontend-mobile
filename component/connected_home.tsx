@@ -1,6 +1,7 @@
 import { ScrollView, Text, StyleSheet, View } from "react-native";
 import ImageCarousel from "./caroussel";
 import Menu from "./menu";
+import React from "react";
 
 export default function ConnectedHome({ navigation }) {
     return (
@@ -9,7 +10,7 @@ export default function ConnectedHome({ navigation }) {
                 <Text style={styles.titre}>SLOW COOKER</Text>
             </View>
             <View style={styles.box2}>
-                <Text style={styles.titre}>Le top recettes</Text>
+                <Text style={styles.textbutton}>Le top recettes</Text>
                 <ImageCarousel />
             </View>
         </ScrollView>
@@ -32,21 +33,19 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     titre: {
-        fontSize: 20,
+        fontSize: 28,
         color: "#F38071",
+        fontWeight: "bold"
     },
     box2: {
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
-        paddingTop: 10,
         paddingBottom: 10,
     },
     box3: {
         minHeight: "28%",
         width: "100%",
-        // Optional: If you want to ensure it always stays at the bottom,
-        // you can add marginTop: 'auto' here.
         marginTop: 'auto',
     },
     button: {
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     },
     textbutton: {
         fontSize: 24,
-        fontWeight: "bold",
+        color: "#F38071",
     },
     inscription: {
         alignItems: "center",

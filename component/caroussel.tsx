@@ -17,7 +17,7 @@ export default function ImageCarousel() {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await axios.get('http://10.0.2.2:3000/recipe', {
+                const response = await axios.get('http://10.0.2.2:3000/recipes', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -56,6 +56,7 @@ export default function ImageCarousel() {
     return (
         <View style={styles.carouselContainer}>
             {images.length > 0 ? (
+                console.log(images),
                 <Carousel
                 data={images}
                 renderItem={renderItem}
