@@ -9,6 +9,7 @@ import { AuthProvider } from './component/authContext';
 import ConnectedPage from './component/connected';
 import ConnectedHome from './component/connected_home';
 import Menu from './component/menu';
+import AddIngredient from './component/add_ingredient';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ function App() {
           <Stack.Screen name="Connected" component={ConnectedPage} options={{headerShown: false}} />
           <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}} />
           <Stack.Screen name="ConnectedHome" component={ConnectedHome} options={{headerShown: false}} />
+          <Stack.Screen name="AddIngredient" component={AddIngredient} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
