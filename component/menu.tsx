@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomePage from './home';
 import ConnectedHome from './connected_home';
 import Search from './search';
+import AddRecipe from './add_recipe';
+import Selection from './selection';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +22,7 @@ export default function Menu() {
             iconName = focused ? 'search' : 'search';
           } else if (route.name === 'Add') {
             iconName = focused ? 'plus' : 'plus';
-          } else if (route.name === 'Like') {
+          } else if (route.name === 'Sélections') {
             iconName = focused ? 'heart' : 'heart';
           } else if (route.name === 'Compte') {
             iconName = focused ? 'user' : 'user';
@@ -34,8 +36,8 @@ export default function Menu() {
     >
       <Tab.Screen name="Home" component={ConnectedHome} options={{headerShown: false}} />
       <Tab.Screen name="Search" component={Search} options={{headerShown: false}} />
-      <Tab.Screen name="Add" component={HomePage} options={{headerShown: false}} />
-      <Tab.Screen name="Like" component={HomePage} options={{headerShown: false}} />
+      <Tab.Screen name="Add" component={AddRecipe} options={{headerShown: false}} />
+      <Tab.Screen name="Sélections" component={Selection} options={{headerShown: false}} />
       <Tab.Screen name="Compte" component={HomePage} options={{headerShown: false}} />
     </Tab.Navigator>
   );
