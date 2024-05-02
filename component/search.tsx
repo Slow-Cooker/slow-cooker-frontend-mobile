@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import { useAuth } from './authContext';
+import { Recipe, useAuth } from './authContext';
 import axios from 'axios';
-import {Recipe} from "./authContext";
-export default function Search() {
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+
+interface ConnectedHomeProps {
+    navigation: NavigationProp<ParamListBase>;
+}
+
+export default function Search({navigation}: ConnectedHomeProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const { token } = useAuth();
     const [searchResults, setSearchResults] = useState([]);
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes/${searchQuery}`, {
+            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes/search/${searchQuery}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -24,8 +30,10 @@ export default function Search() {
 
     const renderItem = ({ item } : { item: Recipe }) => (
         <View style={styles.card}>
-            <Image source={{ uri: item.image }} style={styles.cardImage} />
-            <Text style={styles.cardTitle}>{item.name_recipe}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("RecipeDetails", { id: item.id_recipe })}>
+                <Image source={{ uri: item.image }} style={styles.cardImage} />
+                <Text style={styles.cardTitle}>{item.name_recipe}</Text>
+            </TouchableOpacity>
         </View>
     );
 
