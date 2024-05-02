@@ -3,14 +3,19 @@ import { View, Image, Dimensions, Text, StyleSheet } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import axios from 'axios'; // Ensure axios is imported
 import { useAuth } from './authContext';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
 interface ImageItem {
     id: string;
     name: string;
     url: string;
 }
+interface ConnectedHomeProps {
+    navigation: NavigationProp<ParamListBase>;
+}
 
-export default function ImageCarousel() {
+export default function ImageCarousel({ navigation }: ConnectedHomeProps) {
     const { token } = useAuth();
     const [images, setImages] = useState<ImageItem[]>([]);
 
@@ -22,13 +27,13 @@ export default function ImageCarousel() {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                console.log('Server response:', response.data);
                 if (response.data && Array.isArray(response.data)) {
-                    const newImages = response.data.map((recipe, index) => ({
-                        id: String(index + 1),
+                    const newImages = response.data.map((recipe) => ({
+                        id:recipe.id_recipe,
                         name: recipe.name_recipe,
                         url: recipe.image
                     }));
+                    console.log(newImages)
                     setImages(newImages);
                 } else {
                     console.log("No images or incorrect data structure");
@@ -42,21 +47,23 @@ export default function ImageCarousel() {
 
     const renderItem = ({ item }: { item: ImageItem }) => (
         <View style={styles.imageContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("RecipeDetails", {id: item.id})}>
             <Image
                 source={{ uri: item.url }}
                 style={styles.image}
                 resizeMode="cover"
+                onError={(e) => console.log('Image loading failed!', e)}
             />
             <Text style={styles.recipeName}>
                 {item.name}
             </Text>
+            </TouchableOpacity>
         </View>
     );
 
     return (
         <View style={styles.carouselContainer}>
             {images.length > 0 ? (
-                console.log(images),
                 <Carousel
                 data={images}
                 renderItem={renderItem}
@@ -82,15 +89,15 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     imageContainer: {
-        height: '100%',
+        height: 200,
+        width: 300,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
         position: 'relative',
         borderRadius: 20
     },
     image: {
-        width: '100%',
+        width: 300,
         height: '100%',
         borderRadius: 20
     },
