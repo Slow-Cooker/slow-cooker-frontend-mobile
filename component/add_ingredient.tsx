@@ -8,7 +8,7 @@
     import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-    interface Ingredient {
+    export interface Ingredient {
         id_ingredient: string;
         name_ingredient: string;
         image_ingredient: string;
