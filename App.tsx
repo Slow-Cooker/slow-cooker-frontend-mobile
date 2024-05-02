@@ -10,8 +10,20 @@ import ConnectedPage from './component/connected';
 import ConnectedHome from './component/connected_home';
 import Menu from './component/menu';
 import AddIngredient from './component/add_ingredient';
+import RecipeDetails from './component/recipe_details';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  Register: undefined;
+  Connexion: undefined;
+  Connected: undefined;
+  Menu: undefined;
+  ConnectedHome: undefined;
+  AddIngredient: undefined;
+  RecipeDetails: { id: string };
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 function App() {
   return (
@@ -25,6 +37,7 @@ function App() {
           <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}} />
           <Stack.Screen name="ConnectedHome" component={ConnectedHome} options={{headerShown: false}} />
           <Stack.Screen name="AddIngredient" component={AddIngredient} options={{headerShown: false}} />
+          <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
