@@ -28,7 +28,8 @@ interface Selection {
 
     const fetchSelections = async () => {
         try {
-            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/selections/${user?.id}`, {
+            console.log(token)
+            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/selections/user/${user?.id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             console.log(response.data.recipe)
@@ -40,12 +41,15 @@ interface Selection {
 
     const handleSave = async () => {
         try {
-            await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/selections`, {
+            const url = `${process.env.EXPO_PUBLIC_API_URL}/selections`
+            console.log(user?.id)
+            const response = await axios.post(url, {
                 userId: user?.id,
                 name: selectionName,
             }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
+            console.log(response)
             setSelectionName('');
             setModalVisible(false);
             fetchSelections(); // Rafraîchir la liste des sélections après l'ajout
