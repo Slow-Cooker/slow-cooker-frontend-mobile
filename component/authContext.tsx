@@ -13,13 +13,13 @@ export interface User {
     role: UserRole;
 }
 
-enum Difficulty {
+export enum Difficulty {
     Weak = 'Weak',
     Intermediary = 'Intermediary',
     Difficult = 'Difficult',
 }
 
-enum Category {
+export enum Category {
     Entree = 'Entree',
     Dish = 'Dish',
     Dessert = 'Dessert',
@@ -36,6 +36,7 @@ export interface Recipe {
     duration: string;
     validate: boolean;
     image: string;
+    steps: string;
 }
 
 interface AuthContextType {
