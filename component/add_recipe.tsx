@@ -17,6 +17,7 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
     const [category, setCategory] = useState('');
     const [duration, setDuration] = useState('');
     const [image, setImage] = useState('');
+    const [description, setDescription] = useState('');
     const { user, token, createdRecipe } = useAuth();
 
     const resetForm = () => {
@@ -25,6 +26,7 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
         setCategory('');
         setDuration('');
         setImage('');
+        setDescription('');
     };
 
     const handleCreateRecipe = async () => {
@@ -42,7 +44,7 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
                 image,
                 owner: user,
                 validate: false,
-                steps: ""
+                steps: description,
             }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -110,6 +112,14 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
                         label="Lien de l'image"
                         value={image}
                         onChangeText={setImage}
+                    />
+                </InputWrapper>
+                <InputWrapper>
+                    <TextInput
+                        label="Description de la recette"
+                        value={description}
+                        onChangeText={setDescription}
+                        multiline={true} // If you want a bigger text area
                     />
                 </InputWrapper>
             </View>
