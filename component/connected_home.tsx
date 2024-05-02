@@ -14,7 +14,7 @@ export default function ConnectedHome({ navigation }: ConnectedHomeProps) {
             </View>
             <View style={styles.box2}>
                 <Text style={styles.textbutton}>Le top recettes</Text>
-                <ImageCarousel />
+                <ImageCarousel navigation={navigation} />
             </View>
         </ScrollView>
     );
