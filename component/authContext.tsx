@@ -11,6 +11,7 @@ export interface User {
     email: string;
     password: string;
     role: UserRole;
+    profilepicture: string | undefined;
 }
 
 export enum Difficulty {
@@ -89,11 +90,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const createdRecipeOut = (userData: User) => {
         setUser(userData);
         setToken(token);
-        setRecipe(null)
+        setRecipe(null);
     };
-
-
+    
     const value = { user, token, recipe, signIn, signOut, createdRecipe, createdRecipeOut };
+    
 
     return (
         <AuthContext.Provider value={value}>
