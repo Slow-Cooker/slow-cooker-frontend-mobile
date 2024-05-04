@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, TextInput, Button as RNButton, Alert, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Modal, TextInput, Button as RNButton, Alert, Image, FlatList, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Recipe, useAuth } from './authContext';
 import { ScrollView } from 'react-native-gesture-handler';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
 interface Selection {
     id: number;
@@ -11,29 +12,26 @@ interface Selection {
     recipes: Recipe[];
   }
 
-  interface SelectionCardProps {
-    selection: Selection;
-  }
+interface ConnectedHomeProps {
+    navigation: NavigationProp<ParamListBase>;
+}
 
-
-  export default function Selection() {
+  export default function Selection({navigation}: ConnectedHomeProps) {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectionName, setSelectionName] = useState("");
-    const [selections, setSelections] = useState<Selection[]>([]); // Use the Selection interface
+    const [selections, setSelections] = useState<Selection[]>([]);
     const { token, user } = useAuth();
 
     useEffect(() => {
-        fetchSelections(); // Appel initial pour charger les sélections au montage
+        fetchSelections();
     }, [token, user]);
 
     const fetchSelections = async () => {
         try {
-            console.log(token)
             const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/selections/user/${user?.id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            console.log(response.data.recipe)
-            setSelections(response.data || []); // assuming the data is in response.data.selections
+            setSelections(response.data || []);
         } catch (error) {
             console.error('Error fetching selection:', error);
         }
@@ -42,17 +40,15 @@ interface Selection {
     const handleSave = async () => {
         try {
             const url = `${process.env.EXPO_PUBLIC_API_URL}/selections`
-            console.log(user?.id)
             const response = await axios.post(url, {
                 userId: user?.id,
                 name: selectionName,
             }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            console.log(response)
             setSelectionName('');
             setModalVisible(false);
-            fetchSelections(); // Rafraîchir la liste des sélections après l'ajout
+            fetchSelections();
         } catch (error) {
             console.error('Error saving selection:', error);
             Alert.alert("Error", "Unable to save the selection.");
@@ -61,18 +57,19 @@ interface Selection {
 
     const renderItem = ({ item }: { item: Selection }) => (
         <View style={styles.card}>
-            {item.recipes && item.recipes.length > 0 ? (
-                item.recipes.map((recipe, index) => (
-                    <Image key={index} style={styles.cardImage} source={{ uri: recipe.image }} />
-                ))
-            ) : (
-                <View style={styles.cardImagePlaceholder}>
-                    <Text style={styles.cardImagePlaceholderText}>Pas de recettes</Text>
-                </View>
-            )}
-            <Text style={styles.cardTitle}>{item.name}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("RecipeOfSelection", { id: item.id })}>
+                {item.recipes && item.recipes.length > 0 ? (
+                    <Image style={styles.cardImage} source={{ uri: item.recipes[0].image }} />
+                ) : (
+                    <View style={styles.cardImagePlaceholder}>
+                        <Text style={styles.cardImagePlaceholderText}>Pas de recettes</Text>
+                    </View>
+                )}
+                <Text style={styles.cardTitle}>{item.name}</Text>
+            </TouchableOpacity>
         </View>
     );
+    
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
     <View style={styles.box1}>
