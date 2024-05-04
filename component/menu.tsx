@@ -6,6 +6,7 @@ import ConnectedHome from './connected_home';
 import Search from './search';
 import AddRecipe from './add_recipe';
 import Selection from './selection';
+import AccountPage from './compte';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,7 @@ export default function Menu() {
       <Tab.Screen name="Search" component={Search} options={{headerShown: false}} />
       <Tab.Screen name="Add" component={AddRecipe} options={{headerShown: false}} />
       <Tab.Screen name="Sélections" component={Selection} options={{headerShown: false}} />
-      <Tab.Screen name="Compte" component={HomePage} options={{headerShown: false}} />
+      <Tab.Screen name="Compte" component={AccountPage} options={{headerShown: false}} />
     </Tab.Navigator>
   );
 }
