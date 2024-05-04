@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
-import { Searchbar } from 'react-native-paper';
 import { Recipe, useAuth } from './authContext';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
