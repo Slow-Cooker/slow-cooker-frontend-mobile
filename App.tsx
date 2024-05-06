@@ -12,6 +12,7 @@ import Menu from './component/menu';
 import AddIngredient from './component/add_ingredient';
 import RecipeDetails from './component/recipe_details';
 import RecipeOfSelection from './component/recipe_of_selection';
+import RecipeOfMe from './component/recipe_of_me';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -23,6 +24,7 @@ export type RootStackParamList = {
   AddIngredient: undefined;
   RecipeDetails: { id: string };
   RecipeOfSelection: {id: string};
+  RecipeOfMe: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -41,6 +43,7 @@ function App() {
           <Stack.Screen name="AddIngredient" component={AddIngredient} options={{headerShown: false}} />
           <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{headerShown: false}} />
           <Stack.Screen name="RecipeOfSelection" component={RecipeOfSelection} options={{headerShown: false}} />
+          <Stack.Screen name="RecipeOfMe" component={RecipeOfMe} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
