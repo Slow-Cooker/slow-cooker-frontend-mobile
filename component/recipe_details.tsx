@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, FlatList, Button, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, FlatList, Button, TouchableOpacity, Alert } from 'react-native';
 import { Category, Difficulty, Recipe, User, useAuth } from './authContext';
 import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
@@ -32,11 +32,20 @@ interface IngredientRecipe {
     unit: string;
 }
 
+interface Like {
+    id: string;
+    owner: User;
+    recipe: string;
+}
+
+
 const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
     const { id } = route.params;
     const [recipeDetails, setRecipeDetails] = useState<Recipe | null>(null);
     const [ingredientRecipeDetails, setIngredientRecipeDetails] = useState<IngredientRecipe[]>([]);
-    const { token } = useAuth();
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeResponse, setLikeResponse] = useState<Like | null>(null);  // État pour stocker la réponse du serveur
+    const { token, user, like, liked, unliked } = useAuth();
 
     useEffect(() => {
         const fetchRecipeDetails = async () => {
@@ -66,9 +75,60 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
             }
         };
 
+        const fetchLiked = async () => {
+            try {
+                const response = await axios.get(`http://10.0.2.2:3000/${id}/likes/likeduser`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const likes = response.data; // supposons que cela renvoie un tableau
+                const likedByUser = likes.some((like: Like) => like.owner.id === user?.id);
+                setIsLiked(likedByUser);
+                setLikeResponse(response.data);
+                console.log(likeResponse)
+            } catch (error) {
+                console.error('Error fetching liked status:', error);
+            }
+        };
+
         fetchRecipeDetails();
         fetchIngredientRecipeDetails();
+        fetchLiked();
     }, [id, token]);
+
+    const handleLike = async () => {
+        if (!user) {
+            Alert.alert("User Error", "No user logged in.");
+            return;
+        }
+        if (isLiked) {
+            try {
+                // Supposons que vous avez le like ID stocké dans `likeResponse.id`
+                const response = await axios.delete(`http://10.0.2.2:3000/${id}/likes/${like?.id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+                setIsLiked(false);
+                setLikeResponse(null); // Mettre à jour pour refléter la suppression
+                unliked(user); // Assurez-vous que cette fonction est correctement définie
+            } catch (error) {
+                console.error('Error removing like:', error);
+            }
+        } else {
+            try {
+                const response = await axios.post(`http://10.0.2.2:3000/${id}/likes`, {
+                    recipe: id,
+                    owner: user
+                }, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                setIsLiked(true);
+                setLikeResponse(response.data); // Stocker la réponse avec les détails du like
+                liked(response.data, user); // Assurez-vous que cette fonction est correctement définie
+            } catch (error) {
+                console.error('Error adding like:', error);
+            }
+        }
+    };
+    
 
     if (!recipeDetails) {
         return (
@@ -79,7 +139,6 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
     }
 
     const renderItem = ({ item }: { item: IngredientRecipe }) => (
-        console.log(item.ingredient.image_ingredient),
         <View style={styles.imageContainer}>
             <Image
                 source={{ uri: item.ingredient.image_ingredient }}
@@ -112,6 +171,16 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
                 {recipeDetails.image && (
                     <Image source={{ uri: recipeDetails.image }} style={styles.image} />
                 )}
+                <TouchableOpacity
+                    onPress={handleLike}
+                    style={styles.likeButton}
+                >
+                    <Icon
+                        name={isLiked ? "heart" : "heart-outline"}
+                        size={24}
+                        color={isLiked ? "red" : "black"}
+                    />
+                </TouchableOpacity>
             </View>
             <View style={styles.box3}>
                 <InfoRow label="Type:" value={recipeDetails.category || 'No category available'} />
@@ -214,6 +283,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 20,
     },
+    likeButton: {
+        marginTop: 10,
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },    
     box3: {
         marginTop: 20,
         alignItems: "center",

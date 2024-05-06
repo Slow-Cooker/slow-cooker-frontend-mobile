@@ -40,14 +40,23 @@ export interface Recipe {
     steps: string;
 }
 
+interface Like {
+    id: string;
+    owner: User;
+    recipe: string;
+}
+
 interface AuthContextType {
     user: User | null;
     token: string;
     recipe: Recipe | null;
+    like: Like | null;
     signIn: (userData: User, tokeb: string) => void;
     signOut: () => void;
     createdRecipe: (recipeData: Recipe, userData: User) => void;
     createdRecipeOut: (userData: User) => void;
+    liked: (likeData: Like, userData: User) => void;
+    unliked: (userData: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -68,6 +77,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string>("");
     const [recipe, setRecipe] = useState<Recipe | null>(null);
+    const [like, setLike] = useState<Like | null>(null);
 
     const signIn = (userData: User, token: string) => {
         setUser(userData);
@@ -92,8 +102,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setToken(token);
         setRecipe(null);
     };
+
+    const liked = (likeData: Like, userData: User) => {
+        console.log(likeData)
+        setLike(likeData);
+        setToken(token);
+        setUser(userData);
+    };
+
+    const unliked = (userData: User) => {
+        setUser(userData);
+        setToken(token);
+        setLike(null);
+    };
     
-    const value = { user, token, recipe, signIn, signOut, createdRecipe, createdRecipeOut };
+    const value = { user, token, recipe, like, signIn, signOut, createdRecipe, createdRecipeOut, liked, unliked };
     
 
     return (
