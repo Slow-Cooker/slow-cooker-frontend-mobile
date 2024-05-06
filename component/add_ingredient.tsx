@@ -7,7 +7,6 @@
     import { ScrollView } from "react-native-gesture-handler";
     import Icon from 'react-native-vector-icons/FontAwesome';
 
-
     export interface Ingredient {
         id_ingredient: string;
         name_ingredient: string;
@@ -32,7 +31,6 @@
         }, [quantity, unit]);
 
         const handleQuantityChange = (text: string) => {
-            // Convert the input text to a number, using 0 if conversion fails
             const num = parseInt(text, 10) || 0;
             setQuantity(num);
         };
@@ -68,7 +66,7 @@
             paddingBottom: 12,
             height: 40,
             borderWidth: 1,
-            borderColor: 'gray', // Ajout pour mieux voir le champ
+            borderColor: 'gray',
             borderRadius: 5
         }
     }}
@@ -77,9 +75,9 @@
 
             <TextInput
                 style={styles.ingredientInput}
-                value={quantity.toString()} // Ensure the number is converted back to string for the input
+                value={quantity.toString()}
                 onChangeText={handleQuantityChange}
-                keyboardType="numeric" // Ensure numeric keyboard is used on mobile devices
+                keyboardType="numeric"
                 placeholder="Quantité"
             />
                 <TextInput
@@ -116,7 +114,6 @@
             setIngredients(newIngredients);
         };
 
-        // Supprime un ingrédient de la liste
         const removeIngredient = (index: number) => {
             const newIngredients = [...ingredients];
             newIngredients.splice(index, 1);
@@ -139,7 +136,7 @@
                             value: ingredient.name_ingredient,
                         }));
                         console.log(options)
-                        setIngredientOptions(options); // Set the fetched names as options for the dropdown
+                        setIngredientOptions(options);
                     } else {
                         console.log("No ingredient or incorrect data structure");
                     }
