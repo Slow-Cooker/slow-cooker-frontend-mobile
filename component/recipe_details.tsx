@@ -4,6 +4,7 @@ import { Category, Difficulty, Recipe, User, useAuth } from './authContext';
 import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Comment from "./comments";
 
 interface RecipeDetailsProps {
     route: {
@@ -186,8 +187,12 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     contentContainerStyle={{ ...styles.box4, padding: 10 }}
-                    numColumns={2} />
-            </View><Text style={styles.longInfo}>{recipeDetails.steps || 'No steps available'}</Text></>
+                    numColumns={2}
+                />
+            </View>
+            <Text style={styles.longInfo}>{recipeDetails.steps || 'No steps available'}</Text>
+            <Comment recipeId={id} token={token}/>
+        </>
     );
 }
 
