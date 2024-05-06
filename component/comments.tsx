@@ -21,7 +21,7 @@ const Comment: React.FC<CommentProps> = (recipeId, token) => {
 
     const handlePost = async ()=> {
         try {
-            const response = await axios.post(`http://10.0.2.2:3000/${recipeId}/comments`, {
+            const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/${recipeId}/comments`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },

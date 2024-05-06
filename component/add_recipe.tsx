@@ -10,7 +10,6 @@ function InputWrapper({ children }: { children: React.ReactNode }) {
     return <View style={styles.inputWrapper}>{children}</View>;
 }
 
-
 export default function AddRecipe({ navigation }: { navigation: any }) {
     const [name_recipe, setName_Recipe] = useState('');
     const [difficulty, setDifficulty] = useState('');
@@ -117,7 +116,7 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
                         label="Description de la recette"
                         value={description}
                         onChangeText={setDescription}
-                        multiline={true} // If you want a bigger text area
+                        multiline={true}
                     />
                 </InputWrapper>
             </View>

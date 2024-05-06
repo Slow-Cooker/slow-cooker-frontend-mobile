@@ -1,7 +1,6 @@
-// Dans HomePage.js ou un autre composant
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useAuth } from './authContext'; // Assurez-vous que le chemin est correct
+import { useAuth } from './authContext';
 
 export default function ConnectedPage() {
     const { user, signOut } = useAuth();

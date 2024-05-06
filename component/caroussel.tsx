@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Dimensions, Text, StyleSheet } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import axios from 'axios'; // Ensure axios is imported
+import axios from 'axios';
 import { useAuth } from './authContext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
@@ -34,8 +34,6 @@ export default function ImageCarousel({ navigation }: ConnectedHomeProps) {
                         url: recipe.image
                     }));
                     setImages(newImages);
-                } else {
-                    console.log("No images or incorrect data structure");
                 }
             } catch (error) {
                 console.error('Error fetching images:', error);

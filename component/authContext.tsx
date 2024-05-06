@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 enum UserRole {
     User = "User",
-    Admin = "Admin",
 }
 
 export interface User {
@@ -116,7 +115,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     
     const value = { user, token, recipe, like, signIn, signOut, createdRecipe, createdRecipeOut, liked, unliked };
-    
 
     return (
         <AuthContext.Provider value={value}>

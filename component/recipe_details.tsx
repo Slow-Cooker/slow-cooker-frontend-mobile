@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { Recipe, User, useAuth } from './authContext';
 import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
@@ -44,7 +44,7 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
     const [recipeDetails, setRecipeDetails] = useState<Recipe | null>(null);
     const [ingredientRecipeDetails, setIngredientRecipeDetails] = useState<IngredientRecipe[]>([]);
     const [isLiked, setIsLiked] = useState(false);
-    const [likeResponse, setLikeResponse] = useState<Like | null>(null);  // État pour stocker la réponse du serveur
+    const [likeResponse, setLikeResponse] = useState<Like | null>(null);
     const { token, user, like, liked, unliked } = useAuth();
 
     useEffect(() => {

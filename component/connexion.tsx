@@ -14,7 +14,6 @@ export default function Connexion({navigation}: ConnexionProps) {
     const [password, setPassword] = useState('');
     const { signIn } = useAuth();
 
-
     const handleLogin = async () => {
         try {
             const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/users/auth/login`, {

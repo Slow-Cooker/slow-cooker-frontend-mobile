@@ -65,7 +65,7 @@ export default function RecipeOfSelection({route, navigation}: ConnectedHomeProp
                 data={selection?.recipes}
                 renderItem={renderItem}
                 keyExtractor={item => item.id_recipe}
-                numColumns={2}  // Set up two columns
+                numColumns={2}
                 contentContainerStyle={styles.resultsContainer}
             />
         </View>
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     titleContainer: {
-        flex: 1, // Takes the remaining space
-        alignItems: 'center', // Center aligns the title text horizontally
+        flex: 1,
+        alignItems: 'center',
     },
     header: {
         flexDirection: 'row',

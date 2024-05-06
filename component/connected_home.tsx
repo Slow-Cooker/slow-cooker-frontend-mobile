@@ -1,5 +1,5 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
-import { ScrollView, Text, StyleSheet, View, TouchableOpacity, Image, FlatList } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Image, FlatList } from "react-native";
 import ImageCarousel from "./caroussel";
 import { Button } from 'react-native-paper';
 import React, { useEffect, useState } from "react";
@@ -75,7 +75,6 @@ export default function ConnectedHome({ navigation }: ConnectedHomeProps) {
         />
     );    
 }
-
 
 const styles = StyleSheet.create({
     container: {

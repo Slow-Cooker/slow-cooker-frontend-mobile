@@ -134,9 +134,7 @@
                             label: ingredient.name_ingredient,
                             value: ingredient.name_ingredient,
                         }));
-                        setIngredientOptions(options); // Set the fetched names as options for the dropdown
-                    } else {
-                        console.log("No ingredient or incorrect data structure");
+                        setIngredientOptions(options);
                     }
                 } catch (error) {
                     console.error('Error fetching ingredients:', error);

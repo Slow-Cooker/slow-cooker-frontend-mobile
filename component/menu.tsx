@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HomePage from './home';
 import ConnectedHome from './connected_home';
 import Search from './search';
 import AddRecipe from './add_recipe';

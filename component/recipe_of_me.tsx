@@ -10,7 +10,6 @@ interface ConnectedHomeProps {
     navigation: NavigationProp<ParamListBase>;
 }
 
-
 export default function RecipeOfMe({navigation}: ConnectedHomeProps) {
     const { user, token } = useAuth();
     const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -85,8 +84,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     titleContainer: {
-        flex: 1, // Takes the remaining space
-        alignItems: 'center', // Center aligns the title text horizontally
+        flex: 1,
+        alignItems: 'center',
     },
     header: {
         flexDirection: 'row',

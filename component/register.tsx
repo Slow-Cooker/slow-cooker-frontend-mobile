@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import axios from 'axios';
 import { useAuth } from './authContext';
 
 interface RegisterProps {
@@ -14,7 +13,7 @@ export default function Register({navigation}: RegisterProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    const [profilepicture, setProfileImage] = useState(''); // New state variable for profile image
+    const [profilepicture, setProfileImage] = useState('');
     const { signIn } = useAuth();
 
     const handleSignUp = async () => {
@@ -30,7 +29,7 @@ export default function Register({navigation}: RegisterProps) {
                     username,
                     password,
                     role: "User",
-                    profilepicture // Include profile image in the request body
+                    profilepicture
                 })
             });
             if (!response.ok) {
@@ -39,7 +38,6 @@ export default function Register({navigation}: RegisterProps) {
 
             const data = await response.json();
 
-            // Redirection ou alerte de succès
             Alert.alert("Inscription réussie", "Il faut maintenant vous connecter.", [
                 {text: "OK", onPress: () => navigation.navigate('Connexion')}
             ]);
@@ -77,7 +75,7 @@ export default function Register({navigation}: RegisterProps) {
                     placeholder="Profile Image URL"
                     value={profilepicture}
                     onChangeText={setProfileImage}
-                    leftIcon={<Icon name="image" size={24} color="black" />} // New input field for profile image
+                    leftIcon={<Icon name="image" size={24} color="black" />}
                 />
             </View>
             <View style={styles.box3}>
@@ -94,8 +92,6 @@ export default function Register({navigation}: RegisterProps) {
         </View>
     )
 }
-
-// ... rest of your code
 
 const styles = StyleSheet.create({
     container: {

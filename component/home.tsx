@@ -7,6 +7,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 interface HomePageProps {
     navigation: NavigationProp<ParamListBase>;
 }
+
 export default function HomePage({navigation}: HomePageProps) {
     return (
         <View style={styles.container}>
@@ -65,9 +66,9 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         margin: 'auto',
-        borderWidth: 10,           // Largeur de la bordure
-        borderColor: '#F38071',    // Couleur de la bordure
-        borderRadius: 100,        // Rayon de la bordure
+        borderWidth: 10,
+        borderColor: '#F38071',
+        borderRadius: 100,
     },
     box2: {
         height: "36%",

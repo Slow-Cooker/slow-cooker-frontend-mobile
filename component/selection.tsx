@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Modal, TextInput, Button as RNButton, Alert, Image, FlatList, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Recipe, useAuth } from './authContext';
-import { ScrollView } from 'react-native-gesture-handler';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
 interface Selection {
@@ -212,7 +211,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     cardImagePlaceholderText: {
-        color: '#666', // Choisissez une couleur de texte appropriée
+        color: '#666',
         fontSize: 16,
         textAlign: 'center'
     },
