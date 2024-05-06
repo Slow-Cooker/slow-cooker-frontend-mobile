@@ -33,7 +33,6 @@ export default function ImageCarousel({ navigation }: ConnectedHomeProps) {
                         name: recipe.name_recipe,
                         url: recipe.image
                     }));
-                    console.log(newImages)
                     setImages(newImages);
                 } else {
                     console.log("No images or incorrect data structure");

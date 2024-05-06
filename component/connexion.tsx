@@ -21,7 +21,6 @@ export default function Connexion({navigation}: ConnexionProps) {
                 email,
                 password,
             });
-            console.log('Réponse du serveur :', response.data);
             signIn(response.data.user, response.data.token);
             Alert.alert("Connexion réussie", "Vous êtes maintenant connecté.", [
                 {text: "OK", onPress: () => navigation.navigate('Menu')}

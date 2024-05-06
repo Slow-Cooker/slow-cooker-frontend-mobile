@@ -30,7 +30,6 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
     };
 
     const handleCreateRecipe = async () => {
-        console.log(token);
         if (!user) {
             Alert.alert("User Error", "No user logged in.");
             return;
@@ -49,7 +48,6 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             createdRecipe(response.data, user);
-            console.log('Réponse du serveur :', response.data);
             resetForm();
             navigation.navigate("AddIngredient")
         } catch (error) {

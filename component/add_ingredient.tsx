@@ -131,14 +131,12 @@
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    console.log('Server response:', response.data);
                     if (response.data && Array.isArray(response.data)) {
                         const options = response.data.map(ingredient => ({
                             id: ingredient.id_ingredient,
                             label: ingredient.name_ingredient,
                             value: ingredient.name_ingredient,
                         }));
-                        console.log(options)
                         setIngredientOptions(options); // Set the fetched names as options for the dropdown
                     } else {
                         console.log("No ingredient or incorrect data structure");
@@ -157,14 +155,6 @@
             }
             try {
                 for (const ingredient of ingredients) {
-                    console.log({
-                        ingredient: {
-                            id_ingredient: ingredient.id_ingredient
-                        },
-                        recipe: recipe,
-                        quantity: ingredient.quantity,
-                        unit: ingredient.unit,
-                })
                     const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/recipe-ingredients`, {
                         ingredient: {
                             id_ingredient: ingredient.id_ingredient
@@ -177,8 +167,6 @@
                     }, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
-                    console.log(response)
-                    console.log('Réponse du serveur pour un ingrédient:', response.data);
                     createdRecipeOut(user)
                 }
                 Alert.alert("Success", "All ingredients have been saved successfully.");

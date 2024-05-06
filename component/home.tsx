@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import aliments from "../assets/aliments.jpg";
 import homeimage from "../assets/imagebeoufhome.jpg";
 import React from "react";

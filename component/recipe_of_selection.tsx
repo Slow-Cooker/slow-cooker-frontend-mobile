@@ -29,14 +29,12 @@ export default function RecipeOfSelection({route, navigation}: ConnectedHomeProp
     useEffect(() => {
         const fetchData = async () => {
         try {
-            console.log(`${process.env.EXPO_PUBLIC_API_URL}/selections/${id}`)
             const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/selections/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
             setSelection(response.data);
-            console.log(selection)
         } catch (error) {
             console.error('Error fetching data:', error);
         }
