@@ -19,7 +19,7 @@ export default function ConnectedHome({ navigation }: ConnectedHomeProps) {
 
     const fetchRecipe = async () => {
         try {
-            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes/${user?.id}`, {
+            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes/user/${user?.id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setRecipes(response.data || []);
@@ -42,35 +42,40 @@ export default function ConnectedHome({ navigation }: ConnectedHomeProps) {
             </TouchableOpacity>
         </View>
     );
+
     return (
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <View style={styles.box1}>
-                <Text style={styles.titre}>SLOW COOKER</Text>
-            </View>
-            <View style={styles.box2}>
-                <Text style={styles.textbutton}>Le top recettes</Text>
-                <ImageCarousel navigation={navigation} />
-            </View>
-            <View style={styles.box3}>
-                <Text style={styles.selectiontext}>Mes recettes</Text>
-                <View style={styles.buttonContainer}>
-                    <Button onPress={() => navigation.navigate('RecipeOfMe')} labelStyle={styles.buttonLabel}>
-                        Voir toutes mes recettes
-                    </Button>
-                </View>
-            </View>
-            <View style={styles.recipesContainer}>
-                <FlatList
-                    data={recipes.slice(0, 2)}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id_recipe.toString()}
-                    numColumns={2}
-                    contentContainerStyle={styles.resultsContainer}
-                />
-            </View>
-        </ScrollView>
-    );
+        <FlatList
+            ListHeaderComponent={
+                <>
+                    <View style={styles.box1}>
+                        <Text style={styles.titre}>SLOW COOKER</Text>
+                    </View>
+                    <View style={styles.box2}>
+                        <Text style={styles.textbutton}>Le top recettes</Text>
+                        <ImageCarousel navigation={navigation} />
+                    </View>
+                    <View style={styles.box3}>
+                        <Text style={styles.selectiontext}>Mes recettes</Text>
+                        <View style={styles.buttonContainer}>
+                            <Button onPress={() => navigation.navigate('RecipeOfMe')} labelStyle={styles.buttonLabel}>
+                                Voir toutes mes recettes
+                            </Button>
+                        </View>
+                    </View>
+                </>
+            }
+            ListFooterComponent={
+                <View style={{ height: 100 }}></View>
+            }
+            data={recipes.slice(0, 2)}
+            renderItem={renderItem}
+            keyExtractor={item => item.id_recipe.toString()}
+            numColumns={2}
+            contentContainerStyle={styles.resultsContainer}
+        />
+    );    
 }
+
 
 const styles = StyleSheet.create({
     container: {

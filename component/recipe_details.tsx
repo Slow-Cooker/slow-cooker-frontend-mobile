@@ -20,7 +20,7 @@ interface InfosDetailsProps {
     value: string;
 }
 
-interface Ingredient {
+export interface Ingredient {
     id_ingredient: string;
     image_ingredient: string;
     name_ingredient: string
@@ -68,7 +68,6 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                console.log(response.data)
                 setIngredientRecipeDetails(response.data);
             } catch (error) {
                 console.error('Error fetching recipe details:', error);
@@ -84,7 +83,6 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
                 const likedByUser = likes.some((like: Like) => like.owner.id === user?.id);
                 setIsLiked(likedByUser);
                 setLikeResponse(response.data);
-                console.log(likeResponse)
             } catch (error) {
                 console.error('Error fetching liked status:', error);
             }
@@ -155,16 +153,14 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
     );
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                    <Icon name="arrow-back" size={24} color="#000" />
-                </TouchableOpacity>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{recipeDetails.name_recipe}</Text>
-                </View>
+            <><View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <Icon name="arrow-back" size={24} color="#000" />
+            </TouchableOpacity>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>{recipeDetails.name_recipe}</Text>
             </View>
-            <View style={styles.box2}>
+        </View><View style={styles.box2}>
                 {recipeDetails.image && (
                     <Image source={{ uri: recipeDetails.image }} style={styles.image} />
                 )}
@@ -175,17 +171,14 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
                     <Icon
                         name={isLiked ? "heart" : "heart-outline"}
                         size={24}
-                        color={isLiked ? "red" : "black"}
-                    />
+                        color={isLiked ? "red" : "black"} />
                 </TouchableOpacity>
-            </View>
-            <View style={styles.box3}>
+            </View><View style={styles.box3}>
                 <InfoRow label="Type:" value={recipeDetails.category || 'No category available'} />
                 <InfoRow label="Difficulté:" value={recipeDetails.difficulty || 'No difficulty available'} />
                 <InfoRow label="Auteur:" value={recipeDetails.owner?.username || 'No owner available'} />
                 <InfoRow label="Durée:" value={recipeDetails.duration || 'No duration available'} />
-            </View>
-            <View style={styles.box4}>
+            </View><View style={styles.box4}>
                 <FlatList
                     data={ingredientRecipeDetails}
                     renderItem={renderItem}
@@ -196,7 +189,7 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
             </View>
             <Text style={styles.longInfo}>{recipeDetails.steps || 'No steps available'}</Text>
             <Comment recipeId={id} token={token}/>
-        </ScrollView>
+        </>
     );
 }
 

@@ -20,7 +20,6 @@ export default function Register({navigation}: RegisterProps) {
     const handleSignUp = async () => {
         try {
             const url = `${process.env.EXPO_PUBLIC_API_URL}/users/auth/sign-up`;
-            console.log('URL :', url);
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -39,14 +38,12 @@ export default function Register({navigation}: RegisterProps) {
             }
 
             const data = await response.json();
-            console.log('Réponse du serveur :', data);
 
             // Redirection ou alerte de succès
             Alert.alert("Inscription réussie", "Il faut maintenant vous connecter.", [
                 {text: "OK", onPress: () => navigation.navigate('Connexion')}
             ]);
         } catch (error) {
-            console.log(error)
             console.error('Erreur lors de l\'inscription :', error);
             Alert.alert("Erreur d'inscription", "Impossible de s'inscrire.");
         }

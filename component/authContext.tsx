@@ -104,7 +104,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     const liked = (likeData: Like, userData: User) => {
-        console.log(likeData)
         setLike(likeData);
         setToken(token);
         setUser(userData);
