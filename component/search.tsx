@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, Alert } from 'react-native';
-import { Searchbar, Menu, Button, Checkbox, List } from 'react-native-paper';
+import { Searchbar, Menu, Button, Checkbox } from 'react-native-paper';
 import { useAuth } from './authContext';
 import axios from 'axios';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -79,9 +79,7 @@ export default function Search({ navigation }: Navigation) {
             }
         }
     };
-    
-    
-    
+
     const handleSearch = async () => {
         if (loadingIngredients) {
             Alert.alert('Please wait, ingredients are still loading.');
@@ -124,7 +122,6 @@ export default function Search({ navigation }: Navigation) {
     const toggleIngredientsMenu = () => {
         setIsIngredientsMenuVisible(!isIngredientsMenuVisible);
     };
-    
 
     const renderItem = ({ item }: { item: Recipe }) => (
         <View style={styles.card}>

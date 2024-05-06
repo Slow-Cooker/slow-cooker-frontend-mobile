@@ -71,7 +71,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     
     const value = { user, token, recipe, like, signIn, signOut, createdRecipe, createdRecipeOut, liked, unliked };
-    
 
     return (
         <AuthContext.Provider value={value}>

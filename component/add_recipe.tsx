@@ -10,7 +10,6 @@ function InputWrapper({ children }: { children: React.ReactNode }) {
     return <View style={styles.inputWrapper}>{children}</View>;
 }
 
-
 export default function AddRecipe({ navigation }: { navigation: any }) {
     const [name_recipe, setName_Recipe] = useState('');
     const [difficulty, setDifficulty] = useState('');

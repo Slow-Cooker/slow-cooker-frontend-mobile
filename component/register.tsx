@@ -69,7 +69,7 @@ export default function Register({navigation}: Navigation) {
                     placeholder="Profile Image URL"
                     value={profilepicture}
                     onChangeText={setProfileImage}
-                    leftIcon={<Icon name="image" size={24} color="black" />} // New input field for profile image
+                    leftIcon={<Icon name="image" size={24} color="black" />}
                 />
             </View>
             <View style={styles.box3}>

@@ -73,7 +73,6 @@ export default function ConnectedHome({ navigation }: Navigation) {
     );    
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

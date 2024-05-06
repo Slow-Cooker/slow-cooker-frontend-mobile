@@ -11,13 +11,13 @@ const RecipeDetails = ({ route, navigation }: idNavigationProps) => {
     const [recipeDetails, setRecipeDetails] = useState<Recipe | null>(null);
     const [ingredientRecipeDetails, setIngredientRecipeDetails] = useState<IngredientRecipe[]>([]);
     const [isLiked, setIsLiked] = useState(false);
-    const [likeResponse, setLikeResponse] = useState<Like | null>(null);  // État pour stocker la réponse du serveur
+    const [likeResponse, setLikeResponse] = useState<Like | null>(null);
     const { token, user, like, liked, unliked } = useAuth();
 
     useEffect(() => {
         const fetchRecipeDetails = async () => {
             try {
-                const response = await axios.get(`http://10.0.2.2:3000/recipes/${id}`, {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -30,7 +30,7 @@ const RecipeDetails = ({ route, navigation }: idNavigationProps) => {
 
         const fetchIngredientRecipeDetails = async () => {
             try {
-                const response = await axios.get(`http://10.0.2.2:3000/recipe-ingredients/allIngredients/${id}`, {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipe-ingredients/allIngredients/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -43,7 +43,7 @@ const RecipeDetails = ({ route, navigation }: idNavigationProps) => {
 
         const fetchLiked = async () => {
             try {
-                const response = await axios.get(`http://10.0.2.2:3000/${id}/likes/likeduser`, {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/${id}/likes/likeduser`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const likes = response.data; // supposons que cela renvoie un tableau
@@ -54,7 +54,6 @@ const RecipeDetails = ({ route, navigation }: idNavigationProps) => {
                 console.error('Error fetching liked status:', error);
             }
         };
-
         fetchRecipeDetails();
         fetchIngredientRecipeDetails();
         fetchLiked();
@@ -67,27 +66,26 @@ const RecipeDetails = ({ route, navigation }: idNavigationProps) => {
         }
         if (isLiked) {
             try {
-                // Supposons que vous avez le like ID stocké dans `likeResponse.id`
-                const response = await axios.delete(`http://10.0.2.2:3000/${id}/likes/${like?.id}`, {
+                const response = await axios.delete(`${process.env.EXPO_PUBLIC_API_URL}/${id}/likes/${like?.id}`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 setIsLiked(false);
-                setLikeResponse(null); // Mettre à jour pour refléter la suppression
-                unliked(user); // Assurez-vous que cette fonction est correctement définie
+                setLikeResponse(null);
+                unliked(user);
             } catch (error) {
                 console.error('Error removing like:', error);
             }
         } else {
             try {
-                const response = await axios.post(`http://10.0.2.2:3000/${id}/likes`, {
+                const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/${id}/likes`, {
                     recipe: id,
                     owner: user
                 }, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setIsLiked(true);
-                setLikeResponse(response.data); // Stocker la réponse avec les détails du like
-                liked(response.data, user); // Assurez-vous que cette fonction est correctement définie
+                setLikeResponse(response.data);
+                liked(response.data, user);
             } catch (error) {
                 console.error('Error adding like:', error);
             }
@@ -198,8 +196,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     titleContainer: {
-        flex: 1, // Takes the remaining space
-        alignItems: 'center', // Center aligns the title text horizontally
+        flex: 1,
+        alignItems: 'center',
     },
     imageContainer: {
         height: 150,
@@ -220,18 +218,18 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 20,
-        alignItems: 'center', // Center children
+        alignItems: 'center',
     },
     ingredientName: {
         color: 'black',
         fontSize: 16,
-        textAlign: 'center', // Ensures text is centered
+        textAlign: 'center',
     },
     ingredientQuantity: {
         color: 'black',
-        fontSize: 14, // Slightly smaller font size for quantity
-        textAlign: 'center', // Ensures text is centered
-        marginTop: 5, // Adds space between the name and the quantity
+        fontSize: 14,
+        textAlign: 'center',
+        marginTop: 5,
     },
     imageIngredient: {
         width: 150,
@@ -273,7 +271,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     label: {
-        width: 100, // Fixed width for labels
+        width: 100,
         fontSize: 18,
         color: '#000',
         fontWeight: 'bold',
