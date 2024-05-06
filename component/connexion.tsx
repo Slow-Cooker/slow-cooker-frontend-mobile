@@ -1,15 +1,12 @@
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { useAuth } from './authContext';
+import { Navigation } from './interface';
 
-interface ConnexionProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-export default function Connexion({navigation}: ConnexionProps) {
+export default function Connexion({navigation}: Navigation) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { signIn } = useAuth();

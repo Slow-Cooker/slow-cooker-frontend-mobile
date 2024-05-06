@@ -1,46 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, FlatList, Button, TouchableOpacity, Alert } from 'react-native';
-import { Category, Difficulty, Recipe, User, useAuth } from './authContext';
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { useAuth } from './authContext';
 import axios from 'axios';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Comment from "./comments";
+import { InfosDetailsProps, IngredientRecipe, Like, Recipe, idNavigationProps } from './interface';
 
-interface RecipeDetailsProps {
-    route: {
-        params: {
-            id: string;
-        };
-    };
-    navigation: NavigationProp<ParamListBase>;
-}
-
-interface InfosDetailsProps {
-    label: string;
-    value: string;
-}
-
-export interface Ingredient {
-    id_ingredient: string;
-    image_ingredient: string;
-    name_ingredient: string
-}
-
-interface IngredientRecipe {
-    id: string;
-    ingredient: Ingredient;
-    quantity: string;
-    unit: string;
-}
-
-interface Like {
-    id: string;
-    owner: User;
-    recipe: string;
-}
-
-
-const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
+const RecipeDetails = ({ route, navigation }: idNavigationProps) => {
     const { id } = route.params;
     const [recipeDetails, setRecipeDetails] = useState<Recipe | null>(null);
     const [ingredientRecipeDetails, setIngredientRecipeDetails] = useState<IngredientRecipe[]>([]);
@@ -191,7 +157,7 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
                 />
             </View>
             <Text style={styles.longInfo}>{recipeDetails.steps || 'No steps available'}</Text>
-            <Comment recipeId={id} token={token}/>
+            <Comment recipeId={id} />
         </>
     );
 }

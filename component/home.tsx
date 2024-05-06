@@ -3,11 +3,9 @@ import aliments from "../assets/aliments.jpg";
 import homeimage from "../assets/imagebeoufhome.jpg";
 import React from "react";
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { Navigation } from "./interface";
 
-interface HomePageProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-export default function HomePage({navigation}: HomePageProps) {
+export default function HomePage({navigation}: Navigation) {
     return (
         <View style={styles.container}>
             <View style={styles.box1}>
@@ -65,9 +63,9 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         margin: 'auto',
-        borderWidth: 10,           // Largeur de la bordure
-        borderColor: '#F38071',    // Couleur de la bordure
-        borderRadius: 100,        // Rayon de la bordure
+        borderWidth: 10,
+        borderColor: '#F38071',
+        borderRadius: 100,
     },
     box2: {
         height: "36%",

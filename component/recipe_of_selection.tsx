@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
-import { Recipe, useAuth } from './authContext';
+import { useAuth } from './authContext';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Recipe, Selection, idNavigationProps } from './interface';
 
-interface ConnectedHomeProps {
-    navigation: NavigationProp<ParamListBase>;
-    route: {
-        params: {
-            id: string;
-        };
-    };
-}
-
-interface Selection {
-    id: number;
-    name: string;
-    recipes: Recipe[];
-  }
-
-export default function RecipeOfSelection({route, navigation}: ConnectedHomeProps) {
+export default function RecipeOfSelection({route, navigation}: idNavigationProps) {
     const {id} = route.params;
     const { token } = useAuth();
     const [selection, setSelection] = useState<Selection | null>(null);
@@ -65,7 +51,7 @@ export default function RecipeOfSelection({route, navigation}: ConnectedHomeProp
                 data={selection?.recipes}
                 renderItem={renderItem}
                 keyExtractor={item => item.id_recipe}
-                numColumns={2}  // Set up two columns
+                numColumns={2}
                 contentContainerStyle={styles.resultsContainer}
             />
         </View>
@@ -91,8 +77,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     titleContainer: {
-        flex: 1, // Takes the remaining space
-        alignItems: 'center', // Center aligns the title text horizontally
+        flex: 1,
+        alignItems: 'center',
     },
     header: {
         flexDirection: 'row',

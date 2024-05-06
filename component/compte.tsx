@@ -1,14 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { Recipe, useAuth } from './authContext'; 
+import { useAuth } from './authContext'; 
 import axios from 'axios';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { Navigation, Recipe } from './interface';
 
-interface ConnectedHomeProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-
-export default function AccountPage({navigation}: ConnectedHomeProps) {
+export default function AccountPage({navigation}: Navigation) {
     const { user, token } = useAuth();
     const [recipes, setRecipes] = useState<Recipe[]>([]);
 

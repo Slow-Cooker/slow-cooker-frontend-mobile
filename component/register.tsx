@@ -3,18 +3,14 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import axios from 'axios';
 import { useAuth } from './authContext';
+import { Navigation } from './interface';
 
-interface RegisterProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-
-export default function Register({navigation}: RegisterProps) {
+export default function Register({navigation}: Navigation) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    const [profilepicture, setProfileImage] = useState(''); // New state variable for profile image
+    const [profilepicture, setProfileImage] = useState('');
     const { signIn } = useAuth();
 
     const handleSignUp = async () => {
@@ -30,16 +26,12 @@ export default function Register({navigation}: RegisterProps) {
                     username,
                     password,
                     role: "User",
-                    profilepicture // Include profile image in the request body
+                    profilepicture
                 })
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
-            const data = await response.json();
-
-            // Redirection ou alerte de succès
             Alert.alert("Inscription réussie", "Il faut maintenant vous connecter.", [
                 {text: "OK", onPress: () => navigation.navigate('Connexion')}
             ]);
@@ -94,8 +86,6 @@ export default function Register({navigation}: RegisterProps) {
         </View>
     )
 }
-
-// ... rest of your code
 
 const styles = StyleSheet.create({
     container: {

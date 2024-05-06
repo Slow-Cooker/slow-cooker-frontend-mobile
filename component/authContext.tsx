@@ -1,50 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-
-enum UserRole {
-    User = "User",
-    Admin = "Admin",
-}
-
-export interface User {
-    id: number;
-    username: string;
-    email: string;
-    password: string;
-    role: UserRole;
-    profilepicture: string | undefined;
-}
-
-export enum Difficulty {
-    Weak = 'Weak',
-    Intermediary = 'Intermediary',
-    Difficult = 'Difficult',
-}
-
-export enum Category {
-    Entree = 'Entree',
-    Dish = 'Dish',
-    Dessert = 'Dessert',
-    Drink = 'Drink',
-    Aperitifs = 'Aperitifs',
-  }
-
-export interface Recipe {
-    id_recipe: string;
-    name_recipe: string;
-    difficulty: Difficulty;
-    category: Category;
-    owner: User;
-    duration: string;
-    validate: boolean;
-    image: string;
-    steps: string;
-}
-
-interface Like {
-    id: string;
-    owner: User;
-    recipe: string;
-}
+import { Like, Recipe, User } from './interface';
 
 interface AuthContextType {
     user: User | null;

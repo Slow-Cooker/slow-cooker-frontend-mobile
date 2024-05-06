@@ -2,21 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Modal, TextInput, Button as RNButton, Alert, Image, FlatList, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Recipe, useAuth } from './authContext';
-import { ScrollView } from 'react-native-gesture-handler';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { useAuth } from './authContext';
+import { Navigation, type Selection } from './interface';
 
-interface Selection {
-    id: number;
-    name: string;
-    recipes: Recipe[];
-}
-
-interface ConnectedHomeProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-
-export default function Selection({navigation}: ConnectedHomeProps) {
+export default function Selection({navigation}: Navigation) {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectionName, setSelectionName] = useState("");
     const [selections, setSelections] = useState<Selection[]>([]);
@@ -212,7 +201,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     cardImagePlaceholderText: {
-        color: '#666', // Choisissez une couleur de texte appropriée
+        color: '#666',
         fontSize: 16,
         textAlign: 'center'
     },

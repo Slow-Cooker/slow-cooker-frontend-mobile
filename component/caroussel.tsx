@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Dimensions, Text, StyleSheet } from 'react-native';
+import { View, Image, Dimensions, Text, StyleSheet, Alert } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import axios from 'axios'; // Ensure axios is imported
+import axios from 'axios';
 import { useAuth } from './authContext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { ImageItem, Navigation } from './interface';
 
-interface ImageItem {
-    id: string;
-    name: string;
-    url: string;
-}
-interface ConnectedHomeProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-
-export default function ImageCarousel({ navigation }: ConnectedHomeProps) {
+export default function ImageCarousel({ navigation }: Navigation) {
     const { token } = useAuth();
     const [images, setImages] = useState<ImageItem[]>([]);
 
@@ -35,7 +26,7 @@ export default function ImageCarousel({ navigation }: ConnectedHomeProps) {
                     }));
                     setImages(newImages);
                 } else {
-                    console.log("No images or incorrect data structure");
+                    Alert.alert("No images or incorrect data structure");
                 }
             } catch (error) {
                 console.error('Error fetching images:', error);
@@ -66,8 +57,8 @@ export default function ImageCarousel({ navigation }: ConnectedHomeProps) {
                 <Carousel
                 data={images}
                 renderItem={renderItem}
-                sliderWidth={Dimensions.get('window').width * 0.8} // Adjust based on the new width
-                itemWidth={Dimensions.get('window').width * 0.8} // Adjust based on the new width
+                sliderWidth={Dimensions.get('window').width * 0.8}
+                itemWidth={Dimensions.get('window').width * 0.8}
                 loop={true}
                 autoplay={true}
                 autoplayDelay={500}

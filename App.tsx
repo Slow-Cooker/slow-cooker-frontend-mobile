@@ -6,7 +6,6 @@ import HomePage from './component/home';
 import Register from './component/register';
 import Connexion from './component/connexion';
 import { AuthProvider } from './component/authContext';
-import ConnectedPage from './component/connected';
 import ConnectedHome from './component/connected_home';
 import Menu from './component/menu';
 import AddIngredient from './component/add_ingredient';
@@ -37,7 +36,6 @@ function App() {
           <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
           <Stack.Screen name="Register" component={Register} options={{headerShown: false}} />
           <Stack.Screen name="Connexion" component={Connexion} options={{headerShown: false}} />
-          <Stack.Screen name="Connected" component={ConnectedPage} options={{headerShown: false}} />
           <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}} />
           <Stack.Screen name="ConnectedHome" component={ConnectedHome} options={{headerShown: false}} />
           <Stack.Screen name="AddIngredient" component={AddIngredient} options={{headerShown: false}} />

@@ -1,15 +1,12 @@
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
-import { ScrollView, Text, StyleSheet, View, TouchableOpacity, Image, FlatList } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Image, FlatList } from "react-native";
 import ImageCarousel from "./caroussel";
 import { Button } from 'react-native-paper';
 import React, { useEffect, useState } from "react";
-import { Recipe, useAuth } from './authContext';
+import { useAuth } from './authContext';
 import axios from 'axios';
+import { Navigation, Recipe } from './interface';
 
-interface ConnectedHomeProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-export default function ConnectedHome({ navigation }: ConnectedHomeProps) {
+export default function ConnectedHome({ navigation }: Navigation) {
     const { user, token } = useAuth();
     const [recipes, setRecipes] = useState<Recipe[]>([]);
 

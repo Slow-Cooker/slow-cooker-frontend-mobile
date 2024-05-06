@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, Alert } from 'react-native';
 import { Searchbar, Menu, Button, Checkbox, List } from 'react-native-paper';
-import { Recipe, useAuth } from './authContext';
+import { useAuth } from './authContext';
 import axios from 'axios';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
-import { Ingredient } from './recipe_details';
+import { Ingredient, Navigation, Recipe } from './interface';
 
-interface ConnectedHomeProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-
-export default function Search({ navigation }: ConnectedHomeProps) {
+export default function Search({ navigation }: Navigation) {
     const [searchQuery, setSearchQuery] = useState('');
     const { token } = useAuth();
     const [searchResults, setSearchResults] = useState<Recipe[]>([]);
@@ -23,11 +18,11 @@ export default function Search({ navigation }: ConnectedHomeProps) {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [ingredientOptions, setIngredientOptions] = useState<Ingredient[]>([]);
     const [isIngredientsMenuVisible, setIsIngredientsMenuVisible] = useState(false);
-    const [loadingIngredients, setLoadingIngredients] = useState(true); // State to track loading of ingredients
+    const [loadingIngredients, setLoadingIngredients] = useState(true);
 
     useEffect(() => {
         async function fetchIngredient() {
-            setLoadingIngredients(true); // Start loading
+            setLoadingIngredients(true);
             try {
                 const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/ingredients`, {
                     headers: {
@@ -43,7 +38,7 @@ export default function Search({ navigation }: ConnectedHomeProps) {
                     setIngredientOptions(options);
                 } else {
                     setIngredientOptions([]);
-                    console.log("No ingredients found or incorrect data structure");
+                    Alert.alert("No ingredients found or incorrect data structure");
                 }
             } catch (error) {
                 console.error('Error fetching ingredients:', error);
@@ -56,7 +51,6 @@ export default function Search({ navigation }: ConnectedHomeProps) {
 
     const fetchRecipesByIngredients = async (updatedIngredients: Ingredient[]) => {
         if (updatedIngredients.length === 0) {
-            // Si aucun ingrédient n'est sélectionné, chargez toutes les recettes
             try {
                 const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes`, {
                     headers: {
@@ -70,7 +64,6 @@ export default function Search({ navigation }: ConnectedHomeProps) {
                 setShowSortOptions(false);
             }
         } else {
-            // Logique existante pour charger les recettes par ingrédients
             try {
                 const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/recipe-ingredients/ingredients`,
                     updatedIngredients, {
@@ -101,7 +94,7 @@ export default function Search({ navigation }: ConnectedHomeProps) {
                     'Authorization': `Bearer ${token}`
                 },
                 params: {
-                    ingredients: ingredients // Envoyer les ingrédients sélectionnés en tant que chaîne séparée par des virgules
+                    ingredients: ingredients
                 }
             });
             setSearchResults(response.data);
@@ -113,14 +106,11 @@ export default function Search({ navigation }: ConnectedHomeProps) {
     };
     
     const handleIngredientToggle = (selectedIngredient: { name_ingredient: string; id_ingredient: string; image_ingredient: string }) => {
-        // Create a new Ingredient object from the selectedIngredient
         const newIngredient: Ingredient = {
             name_ingredient: selectedIngredient.name_ingredient,
             id_ingredient: selectedIngredient.id_ingredient,
-            image_ingredient: selectedIngredient.image_ingredient  // Assuming image_ingredient is a required property in your Ingredient type
+            image_ingredient: selectedIngredient.image_ingredient
         };
-    
-        // Check if the ingredient is already in the array
         const isAlreadySelected = ingredients.some(ingredient => ingredient.id_ingredient === newIngredient.id_ingredient);
     
         const updatedIngredients = isAlreadySelected

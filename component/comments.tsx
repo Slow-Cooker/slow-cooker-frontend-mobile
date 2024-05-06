@@ -1,85 +1,104 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import axios from 'axios';
+import { useAuth } from './authContext';
+import { Comment, CommentsProps } from './interface';
 
-interface CommentProps {
-    recipeId: string;
-    token: string;
-}
-
-interface Comment {
-    comment: string;
-    user: {
-        profilepicture: string;
-        username: string;
-    };
-}
-
-const Comment: React.FC<CommentProps> = (recipeId, token) => {
-    const [comments, setComments] = useState([]);
+const Comments:  React.FC<CommentsProps> = ({recipeId}) => {
+    const [comments, setComments] = useState<Comment[]>([]);
     const [inputText, setInputText] = useState('');
+    const { user, token } = useAuth()
 
-    const handlePost = async ()=> {
-        try {
-            const response = await axios.post(`http://10.0.2.2:3000/${recipeId}/comments`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: {'comment': inputText}
-            });
-        } catch (error) {
-            console.error('Error to post comment', error);
+    const handlePost = async () => {
+        if (!inputText.trim()) {
+            Alert.alert('Please enter a comment.');
+            return;
         }
-    }
+        try {
+            await axios.post(`http://10.0.2.2:3000/${recipeId}/comments`, { 
+                comment: inputText ,
+                user,
+                recipe: recipeId
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            setComments([...comments, { comment: inputText, user: { username: 'You', profilepicture: 'path/to/default/image' }}]);
+            setInputText('');
+        } catch (error) {
+            console.error('Error posting comment:', error);
+            Alert.alert('Failed to post comment.');
+        }
+    };
 
     useEffect(() => {
         const fetchComments = async () => {
             try {
                 const response = await axios.get(`http://10.0.2.2:3000/${recipeId}/comments`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setComments(response.data);
             } catch (error) {
-                console.error('Error fetching comments of the recipe:', error);
+                console.error('Error fetching comments:', error);
             }
         };
         fetchComments();
     }, [recipeId, token]);
 
     return (
-        <View>
-            <ScrollView>
-            {comments.map((comment:Comment, index) => {
-                return (
+        <View style={styles.container}>
+            <ScrollView style={styles.commentsArea}>
+                {comments.map((comment, index) => (
                     <View key={index} style={styles.commentContainer}>
                         <Image
-                            source={{ uri: comment.user.profilepicture }}
-                            style={{ width: 200, height: 200 }}
+                            source={{ uri: comment.user.profilepicture || 'path/to/default/image' }}
+                            style={styles.profilePicture}
                         />
-                        <Text>{comment.user.username}</Text>
-                        <Text style={styles.comment}>{comment.comment}</Text>
+                        <View style={styles.commentTextContainer}>
+                            <Text style={styles.username}>{comment.user.username}</Text>
+                            <Text style={styles.comment}>{comment.comment}</Text>
+                        </View>
                     </View>
-                );
-            })}
+                ))}
             </ScrollView>
             <TextInput
                 style={styles.input}
-                placeholder="Ajouter un commentaire"
-                onChangeText={text => setInputText(text)}
+                value={inputText}
+                placeholder="Add a comment..."
+                onChangeText={setInputText}
                 onSubmitEditing={handlePost}
             />
+            <TouchableOpacity onPress={handlePost} style={styles.button}>
+                <Text style={styles.buttonText}>Post</Text>
+            </TouchableOpacity>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
+    commentsArea: {
+        paddingHorizontal: 10,
+    },
     commentContainer: {
         flexDirection: 'row',
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
+        alignItems: 'center',
+    },
+    profilePicture: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        marginRight: 10,
+    },
+    commentTextContainer: {
+        flex: 1,
+    },
+    username: {
+        fontWeight: 'bold',
     },
     comment: {
         fontSize: 16,
@@ -89,7 +108,19 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         paddingLeft: 10,
+        flex: 1,
+        marginRight: 10,
     },
+    button: {
+        backgroundColor: '#007BFF',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+    }
 });
 
-export default Comment;
+export default Comments;

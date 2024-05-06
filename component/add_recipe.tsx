@@ -117,7 +117,7 @@ export default function AddRecipe({ navigation }: { navigation: any }) {
                         label="Description de la recette"
                         value={description}
                         onChangeText={setDescription}
-                        multiline={true} // If you want a bigger text area
+                        multiline={true}
                     />
                 </InputWrapper>
             </View>

@@ -6,22 +6,15 @@
     import axios from "axios";
     import { ScrollView } from "react-native-gesture-handler";
     import Icon from 'react-native-vector-icons/FontAwesome';
+import { RecipeIngredient } from "./interface";
 
-
-    export interface Ingredient {
-        id_ingredient: string;
-        name_ingredient: string;
-        image_ingredient: string;
-        quantity?: number;
-        unit?: string;
-    }
 
     interface IngredientInputProps {
-        ingredient: Ingredient;
-        onUpdate: (index: number, ingredient: Ingredient) => void;
+        ingredient: RecipeIngredient;
+        onUpdate: (index: number, ingredient: RecipeIngredient) => void;
         onRemove: (index: number) => void;
         index: number;
-        ingredientOptions: { label: string; value: string, id: string }[];  // Add this line
+        ingredientOptions: { label: string; value: string, id: string }[];
     }
 
     function IngredientInput({ ingredient, onUpdate, onRemove, index, ingredientOptions }: IngredientInputProps) {
@@ -32,7 +25,6 @@
         }, [quantity, unit]);
 
         const handleQuantityChange = (text: string) => {
-            // Convert the input text to a number, using 0 if conversion fails
             const num = parseInt(text, 10) || 0;
             setQuantity(num);
         };
@@ -44,7 +36,7 @@
         if (selectedIngredient) {
             onUpdate(index, { ...ingredient, name_ingredient: selectedIngredient.label, id_ingredient: selectedIngredient.id });
         } else {
-            console.error('Selected ingredient is not found.');
+            Alert.alert('Selected ingredient is not found.');
         }
     }}
     items={ingredientOptions.map(ing => ({ label: ing.label, value: ing.value }))}
@@ -68,7 +60,7 @@
             paddingBottom: 12,
             height: 40,
             borderWidth: 1,
-            borderColor: 'gray', // Ajout pour mieux voir le champ
+            borderColor: 'gray',
             borderRadius: 5
         }
     }}
@@ -77,9 +69,9 @@
 
             <TextInput
                 style={styles.ingredientInput}
-                value={quantity.toString()} // Ensure the number is converted back to string for the input
+                value={quantity.toString()}
                 onChangeText={handleQuantityChange}
-                keyboardType="numeric" // Ensure numeric keyboard is used on mobile devices
+                keyboardType="numeric"
                 placeholder="Quantité"
             />
                 <TextInput
@@ -96,8 +88,8 @@
     }
 
     export default function AddIngredient({ navigation }: { navigation: any }) {
-        const [ingredients, setIngredients] = useState<Ingredient[]>([]);  // This is for the ingredients in the recipe
-        const [ingredientOptions, setIngredientOptions] = useState<{ label: string; value: string, id: string }[]>([]);  // Dropdown options
+        const [ingredients, setIngredients] = useState<RecipeIngredient[]>([]);
+        const [ingredientOptions, setIngredientOptions] = useState<{ label: string; value: string, id: string }[]>([]);
 
         const { token, user, recipe, createdRecipeOut } = useAuth();
         const handleAddIngredient = () => {
@@ -110,13 +102,12 @@
             }]);
         };
 
-        const updateIngredient = (index: number, newIngredient: Ingredient) => {
+        const updateIngredient = (index: number, newIngredient: RecipeIngredient) => {
             const newIngredients = [...ingredients];
             newIngredients[index] = { ...newIngredients[index], ...newIngredient };
             setIngredients(newIngredients);
         };
 
-        // Supprime un ingrédient de la liste
         const removeIngredient = (index: number) => {
             const newIngredients = [...ingredients];
             newIngredients.splice(index, 1);
@@ -137,9 +128,9 @@
                             label: ingredient.name_ingredient,
                             value: ingredient.name_ingredient,
                         }));
-                        setIngredientOptions(options); // Set the fetched names as options for the dropdown
+                        setIngredientOptions(options);
                     } else {
-                        console.log("No ingredient or incorrect data structure");
+                        Alert.alert("No ingredient or incorrect data structure");
                     }
                 } catch (error) {
                     console.error('Error fetching ingredients:', error);
@@ -198,7 +189,7 @@
                             ingredient={ingredient}
                             onUpdate={updateIngredient}
                             onRemove={removeIngredient}
-                            ingredientOptions={ingredientOptions} // Now passing the correct prop
+                            ingredientOptions={ingredientOptions}
                         />
                     ))}
                 </View>
@@ -262,8 +253,8 @@
             paddingHorizontal: 20,
             width: "80%",
             alignSelf: 'center',
-            marginTop: 40, // Augmentez cette valeur pour ajouter plus d'espace
-            marginBottom: 20, // Ajoutez une marge en bas si nécessaire
+            marginTop: 40, 
+            marginBottom: 20,
         },
         textbutton: {
             fontSize: 24,

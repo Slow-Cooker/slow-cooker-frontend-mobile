@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
-import { Recipe, useAuth } from './authContext';
+import { useAuth } from './authContext';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Navigation, Recipe } from './interface';
 
-interface ConnectedHomeProps {
-    navigation: NavigationProp<ParamListBase>;
-}
-
-
-export default function RecipeOfMe({navigation}: ConnectedHomeProps) {
+export default function RecipeOfMe({navigation}: Navigation) {
     const { user, token } = useAuth();
     const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -85,8 +81,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     titleContainer: {
-        flex: 1, // Takes the remaining space
-        alignItems: 'center', // Center aligns the title text horizontally
+        flex: 1,
+        alignItems: 'center',
     },
     header: {
         flexDirection: 'row',
