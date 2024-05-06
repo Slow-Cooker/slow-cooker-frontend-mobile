@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import { useAuth } from './authContext';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Navigation, Recipe } from './interface';
 

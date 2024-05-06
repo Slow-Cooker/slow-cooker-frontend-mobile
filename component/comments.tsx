@@ -15,7 +15,7 @@ const Comments:  React.FC<CommentsProps> = ({recipeId}) => {
             return;
         }
         try {
-            await axios.post(`http://10.0.2.2:3000/${recipeId}/comments`, { 
+            await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/${recipeId}/comments`, { 
                 comment: inputText ,
                 user,
                 recipe: recipeId
@@ -33,7 +33,7 @@ const Comments:  React.FC<CommentsProps> = ({recipeId}) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await axios.get(`http://10.0.2.2:3000/${recipeId}/comments`, {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/${recipeId}/comments`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setComments(response.data);
