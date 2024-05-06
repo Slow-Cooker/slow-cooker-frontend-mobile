@@ -4,6 +4,7 @@ import { Category, Difficulty, Recipe, User, useAuth } from './authContext';
 import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Comment from "./comments";
 
 interface RecipeDetailsProps {
     route: {
@@ -198,6 +199,7 @@ const RecipeDetails = ({ route, navigation }: RecipeDetailsProps) => {
                 />
             </View>
             <Text style={styles.longInfo}>{recipeDetails.steps || 'No steps available'}</Text>
+            <Comment recipeId={id} token={token}/>
         </ScrollView>
     );
 }
