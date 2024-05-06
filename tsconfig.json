@@ -15,7 +15,8 @@
   },
   "include": [
     "component/**/*",
-    "declarations.d.ts"
+    "declarations.d.ts",
+    "typings.d.ts"
   ],
   "extends": "expo/tsconfig.base"
 }
