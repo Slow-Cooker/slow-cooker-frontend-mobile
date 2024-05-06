@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { Recipe, useAuth } from './authContext'; 
 import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
@@ -18,12 +18,12 @@ export default function AccountPage({navigation}: ConnectedHomeProps) {
 
     const fetchRecipe = async () => {
         try {
-            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes/${user?.id}`, {
+            const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/recipes/user/${user?.id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setRecipes(response.data || []);
         } catch (error) {
-            console.error('Error fetching selection:', error);
+            console.error('Error fetching recipes:', error);
         }
     };
 
@@ -42,24 +42,24 @@ export default function AccountPage({navigation}: ConnectedHomeProps) {
         </View>
     );
 
+    const renderHeader = () => (
+        <View style={styles.profileContainer}>
+            <Image source={{ uri: user?.profilepicture || 'https://via.placeholder.com/150' }} style={styles.profileImage} />
+            <Text style={styles.username}>Username: {user?.username}</Text>
+            <Text style={styles.email}>Email: {user?.email}</Text>
+            <Text style={styles.recipesTitle}>Mes recettes:</Text>
+        </View>
+    );
+
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.profileContainer}>
-                <Image source={{ uri: user?.profilepicture || 'https://via.placeholder.com/150' }} style={styles.profileImage} />
-                <Text style={styles.username}>Username: {user?.username}</Text>
-                <Text style={styles.email}>Email: {user?.email}</Text>
-            </View>
-            <View style={styles.recipesContainer}>
-                <Text style={styles.recipesTitle}>Mes recettes:</Text>
-                <FlatList
-                    data={recipes}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id_recipe.toString()}
-                    numColumns={2}
-                    contentContainerStyle={styles.resultsContainer}
-                />
-            </View>
-        </ScrollView>
+        <FlatList
+            data={recipes}
+            renderItem={renderItem}
+            keyExtractor={item => item.id_recipe.toString()}
+            numColumns={2}
+            ListHeaderComponent={renderHeader}
+            contentContainerStyle={styles.resultsContainer}
+        />
     );
 }
 
@@ -84,11 +84,7 @@ const styles = StyleSheet.create({
     },
     email: {
         fontSize: 20,
-    },
-    recipesContainer: {
-        flex: 1,
-        marginTop: 20,
-        paddingHorizontal: 10,
+        marginBottom: 20,
     },
     recipesTitle: {
         fontSize: 24,

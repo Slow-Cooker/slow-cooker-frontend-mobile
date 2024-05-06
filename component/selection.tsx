@@ -10,13 +10,13 @@ interface Selection {
     id: number;
     name: string;
     recipes: Recipe[];
-  }
+}
 
 interface ConnectedHomeProps {
     navigation: NavigationProp<ParamListBase>;
 }
 
-  export default function Selection({navigation}: ConnectedHomeProps) {
+export default function Selection({navigation}: ConnectedHomeProps) {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectionName, setSelectionName] = useState("");
     const [selections, setSelections] = useState<Selection[]>([]);
@@ -69,61 +69,59 @@ interface ConnectedHomeProps {
             </TouchableOpacity>
         </View>
     );
-    
+
     return (
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-    <View style={styles.box1}>
-        <Text style={styles.titre}>MON CARNET</Text>
-    </View>
-    <View style={styles.box2}>
-        <Text style={styles.selectiontext}>Mes sélections</Text>
-        <View style={styles.buttonContainer}>
-            <Button onPress={() => setModalVisible(true)} labelStyle={styles.buttonLabel}>
-                Ajouter une sélection
-            </Button>
-        </View>
-    </View>
-    <View style={styles.selectionsContainer}>
-        <FlatList
-            data={selections}
-            renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
-            numColumns={2}
-            contentContainerStyle={styles.resultsContainer}
-        />
-    </View>
-    <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-            setModalVisible(!modalVisible);
-        }}
-    >
-        <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setSelectionName}
-                    value={selectionName}
-                    placeholder="Entrez le nom de la sélection"
-                />
-                <View style={styles.modalButtons}>
-                    <RNButton title="Annuler" onPress={() => setModalVisible(false)} />
-                    <RNButton title="Sauvegarder" onPress={handleSave} />
+        <View style={styles.container}>
+            <View style={styles.box1}>
+                <Text style={styles.titre}>MON CARNET</Text>
+            </View>
+            <View style={styles.box2}>
+                <Text style={styles.selectiontext}>Mes sélections</Text>
+                <View style={styles.buttonContainer}>
+                    <Button onPress={() => setModalVisible(true)} labelStyle={styles.buttonLabel}>
+                        Ajouter une sélection
+                    </Button>
                 </View>
             </View>
+            <View style={styles.selectionsContainer}>
+                <FlatList
+                    data={selections}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id.toString()}
+                    numColumns={2}
+                    contentContainerStyle={styles.resultsContainer}
+                />
+            </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={setSelectionName}
+                            value={selectionName}
+                            placeholder="Entrez le nom de la sélection"
+                        />
+                        <View style={styles.modalButtons}>
+                            <RNButton title="Annuler" onPress={() => setModalVisible(false)} />
+                            <RNButton title="Sauvegarder" onPress={handleSave} />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
-    </Modal>
-</ScrollView>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    contentContainer: {
-        flexGrow: 1,
     },
     box1: {
         height: "8%",
@@ -165,8 +163,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
-        width: 0,
-        height: 2
+            width: 0,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -208,7 +206,7 @@ const styles = StyleSheet.create({
     cardImagePlaceholder: {
         width: '100%',
         height: 150,
-        backgroundColor: '#eee', // Choisissez une couleur de fond appropriée
+        backgroundColor: '#eee',
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center'
