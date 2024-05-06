@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, Text, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
 import axios from "axios";
-import {useState} from 'react';
 
 interface CommentProps {
     recipeId: string;
@@ -10,10 +9,28 @@ interface CommentProps {
 
 interface Comment {
     comment: string;
+    user: {
+        profilepicture: string;
+        username: string;
+    };
 }
 
 const Comment: React.FC<CommentProps> = (recipeId, token) => {
     const [comments, setComments] = useState([]);
+    const [inputText, setInputText] = useState('');
+
+    const handlePost = async ()=> {
+        try {
+            const response = await axios.post(`http://10.0.2.2:3000/${recipeId}/comments`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: {'comment': inputText}
+            });
+        } catch (error) {
+            console.error('Error to post comment', error);
+        }
+    }
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -33,26 +50,45 @@ const Comment: React.FC<CommentProps> = (recipeId, token) => {
 
     return (
         <View>
+            <ScrollView>
             {comments.map((comment:Comment, index) => {
                 return (
                     <View key={index} style={styles.commentContainer}>
+                        <Image
+                            source={{ uri: comment.user.profilepicture }}
+                            style={{ width: 200, height: 200 }}
+                        />
+                        <Text>{comment.user.username}</Text>
                         <Text style={styles.comment}>{comment.comment}</Text>
                     </View>
                 );
             })}
+            </ScrollView>
+            <TextInput
+                style={styles.input}
+                placeholder="Ajouter un commentaire"
+                onChangeText={text => setInputText(text)}
+                onSubmitEditing={handlePost}
+            />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     commentContainer: {
-        flexDirection: 'column',
+        flexDirection: 'row',
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
     },
     comment: {
         fontSize: 16,
+    },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        paddingLeft: 10,
     },
 });
 
